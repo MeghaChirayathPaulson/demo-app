@@ -1,3 +1,5 @@
+import 'package:dementia_app/HomeScreen.dart';
+import 'package:dementia_app/Methods.dart';
 import 'package:flutter/material.dart';
 
 class CreateAccount extends StatefulWidget {
@@ -14,6 +16,7 @@ class _CreateAccountState extends State<CreateAccount> {
  final TextEditingController _name =TextEditingController();
  final TextEditingController _email =TextEditingController();
  final TextEditingController _password =TextEditingController();
+ bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,12 @@ class _CreateAccountState extends State<CreateAccount> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Column(
+      body: isLoading ? Center(child: Container(
+        height: size.height/20,
+        width: size.height/20,
+        child: const CircularProgressIndicator(),
+        ),): SingleChildScrollView(
+        child: Column(
         children: [
           SizedBox(
             height: size.height / 50,
@@ -33,7 +41,7 @@ class _CreateAccountState extends State<CreateAccount> {
               icon: const Icon(Icons.arrow_back_ios),onPressed: () {}),),
 
           SizedBox(
-            height: size.height / 8,
+            height: size.height / 2,
           ),
 
           Container(
@@ -96,13 +104,38 @@ class _CreateAccountState extends State<CreateAccount> {
 
         ],
       ),
-    );
+          
+        ),
+      );
+    
   }
 
   Widget customButton (Size size){
   return GestureDetector(
 
-    onTap: () {},
+    onTap: () {
+      if(_name.text.isNotEmpty &&_email.text.isNotEmpty && _password.text.isNotEmpty)
+      {
+          setState(() {
+            isLoading = true;
+          });
+        createAccount(_name.text, _email.text,  _password.text).then((user) {
+         if(user != null){
+          setState(() {
+           isLoading =false; 
+          });
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+          print("Login Successfull");
+         }
+         else{
+          print("Login failed");
+         }
+        });
+       }
+      else{
+        print("Please fill the feilds");
+      }
+    },
     child: Container(
       height:size.height /14,
       width: size.width / 1.2,

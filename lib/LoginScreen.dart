@@ -1,4 +1,6 @@
 import 'package:dementia_app/CreateAccount.dart';
+import 'package:dementia_app/HomeScreen.dart';
+import 'package:dementia_app/Methods.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -10,13 +12,20 @@ class _LoginScreenState extends State<LoginScreen> {
    
    final TextEditingController _email=TextEditingController();
    final TextEditingController _password =TextEditingController();
-
+   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     
     return Scaffold(
-      body: Column(
+      body: isLoading ? Center(child: Container(
+        height: size.height/20,
+        width: size.height/20,
+        child: const CircularProgressIndicator(),
+        ),): 
+        SingleChildScrollView(
+       
+        child: Column(
         children: [
           SizedBox(
             height: size.height / 50,
@@ -28,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
               icon: const Icon(Icons.arrow_back_ios),onPressed: () {}),),
 
           SizedBox(
-            height: size.height / 4,
+            height: size.height / 2,
           ),
 
           Container(
@@ -84,21 +93,52 @@ class _LoginScreenState extends State<LoginScreen> {
         )
         ],
       ),
+      ),
     );
   }
 Widget customButton (Size size){
-  return Container(
-    height:size.height /14,
-    width: size.width / 1.2,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(5),
-      color: Colors.blue,
-    ),
-    alignment: Alignment.center,
-    child: const Text("Login",style: TextStyle(color: Colors.white, 
-    fontSize: 18,
-    fontWeight: FontWeight.bold,
-    )));
+  return GestureDetector(
+   
+   onTap: ()  {
+    if(_email.text.isNotEmpty && _password.text.isNotEmpty){
+      setState(() {
+        isLoading= true;
+      });
+      logIn(_email.text, _password.text).then((user) {
+         
+        if (user != null){
+          print("Login Successful");
+          setState(() {
+            isLoading = false;
+          });
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+        }
+      else{
+        print("Login failed");
+        setState(() {
+          isLoading = false;
+        });
+      }
+      });
+    }else{
+      print("Please fill form correctly..");
+    }
+   },
+
+
+    child: Container(
+      height:size.height /14,
+      width: size.width / 1.2,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: Colors.blue,
+      ),
+      alignment: Alignment.center,
+      child: const Text("Login",style: TextStyle(color: Colors.white, 
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+      ))),
+  );
   
 }
 

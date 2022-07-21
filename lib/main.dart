@@ -1,7 +1,6 @@
-import 'package:dementia_app/LoginScreen.dart';
+import 'package:dementia_app/Authenticate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: Authenticate(),
     );
   }
 }
