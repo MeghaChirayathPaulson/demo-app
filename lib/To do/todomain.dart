@@ -6,14 +6,14 @@ import 'package:path_provider/path_provider.dart';
 
 const String todoBoxName = "todo";
 
-Start() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final document = await getApplicationDocumentsDirectory();
-  Hive.init(document.path);
-  Hive.registerAdapter(TodoModelAdapter());
-  await Hive.openBox<TodoModel>(todoBoxName);
-  runApp(todoApp());
-}
+// Start() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   final document = await getApplicationDocumentsDirectory();
+//   Hive.init(document.path);
+//   Hive.registerAdapter(TodoModelAdapter());
+//   await Hive.openBox<TodoModel>(todoBoxName);
+//   runApp(todoApp());
+// }
 
 class todoApp extends StatelessWidget {
   @override

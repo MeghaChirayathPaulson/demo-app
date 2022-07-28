@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
                     bottomRight: Radius.circular(50.0),
                     topLeft: Radius.circular(5.0),
                     bottomLeft: Radius.circular(50.0)),
-                color: Color(0xFF2A1758),
+                color: Colors.blue,
               ),
               padding: const EdgeInsets.fromLTRB(10, 70, 0, 0),
               child: Column(
@@ -46,6 +46,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Container(
+              padding: EdgeInsets.all(10),
               margin: const EdgeInsets.fromLTRB(15, 140, 15, 0),
               height: MediaQuery.of(context).size.height * 0.28,
               width: MediaQuery.of(context).size.width * 100,
@@ -60,15 +61,16 @@ class HomeScreen extends StatelessWidget {
                   Stack(
                     children: [
                       Container(
-                        padding: const EdgeInsets.fromLTRB(20, 30, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(145, 40, 0, 0),
                         child: const CircleAvatar(
                           radius: 28,
-                          backgroundColor: Color.fromARGB(255, 42, 23, 88),
-                          //backgroundImage: AssetImage('assets/de.jpeg'),
+                          backgroundColor: Color.fromARGB(255, 220, 214, 214),
+                          //backgroundImage: AssetImage(""),
+                          backgroundImage: AssetImage('assets/user.png'),
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.fromLTRB(0, 95, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(125, 95, 0, 0),
                         child: const Text(
                           "Ansh Sharma",
                           style: TextStyle(
@@ -79,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.fromLTRB(20, 125, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(140, 125, 0, 0),
                         child: const Text(
                           "Engineer",
                           style: TextStyle(
@@ -90,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.fromLTRB(10, 145, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(130, 145, 0, 0),
                         child: const Text(
                           "99xxxxxxxx",
                           style: TextStyle(
@@ -101,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.fromLTRB(20, 166, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(140, 166, 0, 0),
                         child: const Text(
                           "Thrissur",
                           style: TextStyle(
@@ -115,7 +117,9 @@ class HomeScreen extends StatelessWidget {
                         child: Center(
                             child: TextButton(
                                 onPressed: () => logOut(context),
-                                child: const Text("Logout"))),
+                                child: const Text(
+                                  "Logout",
+                                ))),
                       )
                     ],
                   ),
@@ -181,7 +185,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => Start(),
+                            builder: (_) => todoApp(),
                           ));
                     },
                     child: Container(
@@ -206,7 +210,7 @@ class HomeScreen extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(50),
                                       child: SvgPicture.asset(
-                                          "assets/tracking.svg"),
+                                          "assets/to-do-list.svg"),
                                     ),
                                     backgroundColor: const Color(0xffdce0eb)),
                               ),

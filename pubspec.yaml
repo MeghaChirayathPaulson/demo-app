@@ -73,6 +73,10 @@ flutter:
   assets:
     - assets/calender.svg
     - assets/tracking.svg
+    - assets/to-do-list.svg
+    - assets/account.png
+    - assets/user.png
+
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

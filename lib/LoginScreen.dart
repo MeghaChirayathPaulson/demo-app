@@ -75,7 +75,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Container(
                       width: size.width,
                       alignment: Alignment.center,
-                      child: field(size, "password", Icons.lock, _password),
+                      child: field(
+                        size,
+                        "password",
+                        Icons.lock,
+                        _password,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -91,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: const Text(
                       "Create Account",
                       style: TextStyle(
-                          color: Color.fromARGB(255, 42, 23, 88),
+                          color: Colors.blue,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
                     ),
@@ -133,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
           width: size.width / 1.2,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: Color.fromARGB(255, 42, 23, 88),
+            color: Colors.blue,
           ),
           alignment: Alignment.center,
           child: const Text("Login",
