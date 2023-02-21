@@ -6,6 +6,8 @@ import 'package:dementia_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'Brain game/game_home.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -70,9 +72,9 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.fromLTRB(125, 95, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(150, 95, 0, 0),
                         child: const Text(
-                          "Ansh Sharma",
+                          "Anish",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -94,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.fromLTRB(130, 145, 0, 0),
                         child: const Text(
-                          "99xxxxxxxx",
+                          "9900000000",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,
@@ -126,111 +128,235 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Row(
+            Column(
               children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => HomePage(),
-                          ));
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.fromLTRB(20, 400, 20, 0),
-                      height: MediaQuery.of(context).size.height * 0.18,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20.0),
-                          boxShadow: const [
-                            BoxShadow(
-                                blurRadius: 2.0, color: Color(0xFFCFCCC4)),
-                          ]),
-                      child: Column(
-                        children: [
-                          Stack(
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => HomePage(),
+                              ));
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(20, 400, 20, 0),
+                          height: MediaQuery.of(context).size.height * 0.18,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: const [
+                                BoxShadow(
+                                    blurRadius: 2.0, color: Color(0xFFCFCCC4)),
+                              ]),
+                          child: Column(
                             children: [
-                              Container(
-                                padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                                child: CircleAvatar(
-                                    radius: 29,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: SvgPicture.asset(
-                                          "assets/calender.svg"),
-                                    ),
-                                    backgroundColor: const Color(0xffdce0eb)),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.fromLTRB(0, 95, 0, 0),
-                                child: const Text(
-                                  "Calender",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
+                              Stack(
+                                children: [
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                                    child: CircleAvatar(
+                                        radius: 29,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          child: SvgPicture.asset(
+                                              "assets/calender.svg"),
+                                        ),
+                                        backgroundColor:
+                                            const Color(0xffdce0eb)),
                                   ),
-                                ),
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 95, 0, 0),
+                                    child: const Text(
+                                      "Calender",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => todoApp(),
+                              ));
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(20, 400, 20, 0),
+                          height: MediaQuery.of(context).size.height * 0.18,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: const [
+                                BoxShadow(
+                                    blurRadius: 2.0, color: Color(0xFFCFCCC4)),
+                              ]),
+                          child: Column(
+                            children: [
+                              Stack(
+                                children: [
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(50, 30, 0, 0),
+                                    child: CircleAvatar(
+                                        radius: 29,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          child: SvgPicture.asset(
+                                              "assets/to-do-list.svg"),
+                                        ),
+                                        backgroundColor:
+                                            const Color(0xffdce0eb)),
+                                  ),
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(40, 95, 0, 0),
+                                    child: const Text(
+                                      "Add your Tasks here",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => todoApp(),
-                          ));
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.fromLTRB(20, 400, 20, 0),
-                      height: MediaQuery.of(context).size.height * 0.18,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20.0),
-                          boxShadow: const [
-                            BoxShadow(
-                                blurRadius: 2.0, color: Color(0xFFCFCCC4)),
-                          ]),
-                      child: Column(
-                        children: [
-                          Stack(
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => GameHome(),
+                              ));
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(20, 40, 20, 0),
+                          height: MediaQuery.of(context).size.height * 0.18,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: const [
+                                BoxShadow(
+                                    blurRadius: 2.0, color: Color(0xFFCFCCC4)),
+                              ]),
+                          child: Column(
                             children: [
-                              Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(50, 30, 0, 0),
-                                child: CircleAvatar(
-                                    radius: 29,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: SvgPicture.asset(
-                                          "assets/to-do-list.svg"),
-                                    ),
-                                    backgroundColor: const Color(0xffdce0eb)),
-                              ),
-                              Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(40, 95, 0, 0),
-                                child: const Text(
-                                  "Add your Tasks here",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
+                              Stack(
+                                children: [
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(25, 30, 0, 0),
+                                    child: CircleAvatar(
+                                        radius: 29,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          child: SvgPicture.asset(
+                                              "assets/braingame.svg"),
+                                        ),
+                                        backgroundColor:
+                                            const Color(0xffdce0eb)),
                                   ),
-                                ),
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 95, 0, 0),
+                                    child: const Text(
+                                      "Memory Game",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => todoApp(),
+                              ));
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(20, 40, 20, 0),
+                          height: MediaQuery.of(context).size.height * 0.18,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0),
+                              boxShadow: const [
+                                BoxShadow(
+                                    blurRadius: 2.0, color: Color(0xFFCFCCC4)),
+                              ]),
+                          child: Column(
+                            children: [
+                              Stack(
+                                children: [
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(50, 20, 0, 0),
+                                    child: CircleAvatar(
+                                        radius: 29,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          child: SvgPicture.asset(
+                                              "assets/location.svg"),
+                                        ),
+                                        backgroundColor:
+                                            const Color(0xffdce0eb)),
+                                  ),
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(40, 95, 0, 0),
+                                    child: const Text(
+                                      "Track Location",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

@@ -34,9 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     alignment: Alignment.centerLeft,
                     width: size.width / 1.2,
-                    child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios),
-                        onPressed: () {}),
                   ),
                   SizedBox(
                     height: size.height / 2,
