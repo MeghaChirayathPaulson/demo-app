@@ -1,3 +1,4 @@
+import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:dementia_app/Calendar&Reminder/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -43,6 +44,21 @@ class _CalenderHomeState extends State<CalenderHome> {
                 ),
                 MyButton(label: "+ Add Task", onTap: () => null)
               ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: DatePicker(
+              DateTime.now(),
+              height: 100,
+              width: 80,
+              initialSelectedDate: DateTime.now(),
+              selectionColor: Colors.blue,
+              selectedTextColor: Colors.white,
+              dateTextStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey),
             ),
           )
         ],
