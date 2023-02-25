@@ -1,3 +1,4 @@
+import 'package:dementia_app/Calendar&Reminder/calendar_home.dart';
 import 'package:dementia_app/Calendar/calendar.dart';
 import 'package:dementia_app/CreateAccount.dart';
 import 'package:dementia_app/Methods.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'Brain game/game_home.dart';
+import 'Location Tracking/loc_home.dart';
+import 'Dementia Prediction/prediction.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -43,6 +46,21 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                  TextButton(
+                    child: Text(
+                      "Take a Survey",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 16,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DementiaSurvey()));
+                    },
                   ),
                 ],
               ),
@@ -122,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                                 child: const Text(
                                   "Logout",
                                 ))),
-                      )
+                      ),
                     ],
                   ),
                 ],
@@ -138,7 +156,7 @@ class HomeScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => HomePage(),
+                                builder: (_) => CalenderHome(),
                               ));
                         },
                         child: Container(
@@ -307,7 +325,7 @@ class HomeScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => todoApp(),
+                                builder: (_) => Location(),
                               ));
                         },
                         child: Container(
