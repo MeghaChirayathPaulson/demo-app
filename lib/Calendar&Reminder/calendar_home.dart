@@ -1,10 +1,12 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:dementia_app/Calendar&Reminder/add_task_bar.dart';
 import 'package:dementia_app/Calendar&Reminder/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 class CalenderHome extends StatefulWidget {
   const CalenderHome({super.key});
@@ -14,6 +16,7 @@ class CalenderHome extends StatefulWidget {
 }
 
 class _CalenderHomeState extends State<CalenderHome> {
+  DateTime _selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,12 +45,14 @@ class _CalenderHomeState extends State<CalenderHome> {
                     ],
                   ),
                 ),
-                MyButton(label: "+ Add Task", onTap: () => null)
+                MyButton(
+                    label: "+ Add Task",
+                    onTap: () => Get.to(const AddTaskPage()))
               ],
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(top: 20, left: 20),
             child: DatePicker(
               DateTime.now(),
               height: 100,
@@ -55,10 +60,27 @@ class _CalenderHomeState extends State<CalenderHome> {
               initialSelectedDate: DateTime.now(),
               selectionColor: Colors.blue,
               selectedTextColor: Colors.white,
-              dateTextStyle: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey),
+              dateTextStyle: GoogleFonts.lato(
+                textStyle: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey),
+              ),
+              dayTextStyle: GoogleFonts.lato(
+                textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey),
+              ),
+              monthTextStyle: GoogleFonts.lato(
+                textStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey),
+              ),
+              onDateChange: (date) {
+                _selectedDate = date;
+              },
             ),
           )
         ],

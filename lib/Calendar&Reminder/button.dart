@@ -13,7 +13,7 @@ class MyButton extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap,
       child: Container(
-        padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+        padding: EdgeInsets.fromLTRB(22, 20, 10, 10),
         width: 120,
         height: 60,
         decoration: BoxDecoration(
