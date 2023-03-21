@@ -32,6 +32,7 @@ dependencies:
   http: ^0.13.4
   firebase_auth: ^4.2.2
   firebase_core: ^2.5.0
+  cloud_firestore: ^4.4.5
   syncfusion_flutter_calendar: ^20.1.61
   flutter_svg: ^2.0.1
   intl:

@@ -1,5 +1,6 @@
 import 'package:dementia_app/Calendar&Reminder/calendar_home.dart';
 import 'package:dementia_app/Calendar/calendar.dart';
+import 'package:dementia_app/Community/chat_home.dart';
 import 'package:dementia_app/CreateAccount.dart';
 import 'package:dementia_app/Methods.dart';
 import 'package:dementia_app/To%20do/todomain.dart';
@@ -392,7 +393,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => CalenderHome(),
+                                  builder: (_) => ChatHome(),
                                 ));
                           },
                           child: Container(
