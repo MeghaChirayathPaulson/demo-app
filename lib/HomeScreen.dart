@@ -2,8 +2,11 @@ import 'package:dementia_app/Calendar&Reminder/calendar_home.dart';
 import 'package:dementia_app/Calendar/calendar.dart';
 import 'package:dementia_app/Community/chat_home.dart';
 import 'package:dementia_app/CreateAccount.dart';
+import 'package:dementia_app/Emotion/emotion_home.dart';
 import 'package:dementia_app/Methods.dart';
+import 'package:dementia_app/Photo%20Album/photo_home.dart';
 import 'package:dementia_app/To%20do/todomain.dart';
+import 'package:dementia_app/Treatment%20Tracking/treatment_home.dart';
 import 'package:dementia_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -449,7 +452,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => todoApp(),
+                                  builder: (_) => PhotoAlbumScreen(),
                                 ));
                           },
                           child: Container(
@@ -500,6 +503,125 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => AddTreatmentRecordScreen(),
+                                ));
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(20, 40, 20, 0),
+                            height: MediaQuery.of(context).size.height * 0.18,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      blurRadius: 2.0,
+                                      color: Color(0xFFCFCCC4)),
+                                ]),
+                            child: Column(
+                              children: [
+                                Stack(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          40, 30, 0, 0),
+                                      child: CircleAvatar(
+                                          radius: 29,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            child: SvgPicture.asset(
+                                                "assets/treatment-plan.svg"),
+                                          ),
+                                          backgroundColor:
+                                              const Color(0xffdce0eb)),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          40, 95, 0, 0),
+                                      child: const Text(
+                                        "Treatment    Records",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => EmotionHome(),
+                                ));
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(20, 40, 20, 0),
+                            height: MediaQuery.of(context).size.height * 0.18,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: const [
+                                  BoxShadow(
+                                      blurRadius: 2.0,
+                                      color: Color(0xFFCFCCC4)),
+                                ]),
+                            child: Column(
+                              children: [
+                                Stack(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          50, 30, 0, 0),
+                                      child: CircleAvatar(
+                                          radius: 29,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            child: SvgPicture.asset(
+                                                "assets/Emotion.svg"),
+                                          ),
+                                          backgroundColor:
+                                              const Color(0xffdce0eb)),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          50, 95, 0, 0),
+                                      child: const Text(
+                                        "Emotion Detection",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20.0,
                   ),
                 ],
               ),

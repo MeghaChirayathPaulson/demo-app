@@ -38,6 +38,9 @@ dependencies:
   intl:
   google_fonts: ^4.0.3
   date_picker_timeline: 
+  image_picker: ^0.8.7
+  cached_network_image: ^3.2.3
+  file_picker: ^5.2.6
     
 
 
@@ -85,7 +88,9 @@ flutter:
     - assets/braingame.svg
     - assets/location.svg
     - assets/filled-chat.svg
+    - assets/Emotion.svg
     - assets/image-gallery.svg
+    - assets/treatment-plan.svg
     - assets/account.png
     - assets/user.png
     - assets/circle.png
