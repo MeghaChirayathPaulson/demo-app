@@ -37,12 +37,6 @@ class _AddCaptionScreenState extends State<AddCaptionScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.file(
-              File(widget.imageUrl),
-              fit: BoxFit.cover,
-              height: 300,
-            ),
-            SizedBox(height: 7),
             TextFormField(
               controller: _captionController,
               decoration: InputDecoration(
@@ -55,10 +49,8 @@ class _AddCaptionScreenState extends State<AddCaptionScreen> {
               onPressed: () {
                 // save the caption and navigate back to the photo album screen
                 String caption = _captionController.text;
-                // save the caption with the corresponding image url
-                // you can use a database or a simple map to store the captions
-                // for each image
-                Navigator.pop(context);
+                // pass the caption back to the calling screen
+                Navigator.pop(context, caption);
               },
               child: Text('Save'),
             ),

@@ -1,17 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dementia_app/Community/one_to_one_chat.dart';
-import 'package:dementia_app/Methods.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ChatHome extends StatefulWidget {
-  ChatHome({Key? key}) : super(key: key);
+  const ChatHome({Key? key}) : super(key: key);
 
   @override
   State<ChatHome> createState() => _ChatHomeState();
 }
 
-class _ChatHomeState extends State<ChatHome> {
+class _ChatHomeState extends State<ChatHome> with WidgetsBindingObserver {
   Map<String, dynamic>? userMap;
   bool isLoading = false;
   final TextEditingController _search = TextEditingController();
@@ -26,7 +25,9 @@ class _ChatHomeState extends State<ChatHome> {
     }
   }
 
+  // ignore: non_constant_identifier_names
   void OnSearch() async {
+    // ignore: no_leading_underscores_for_local_identifiers
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
     setState(() {
       isLoading = true;
@@ -58,10 +59,10 @@ class _ChatHomeState extends State<ChatHome> {
       ),
       body: isLoading
           ? Center(
-              child: Container(
+              child: SizedBox(
                 height: size.height / 20,
                 width: size.width / 20,
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               ),
             )
           : Column(
@@ -71,7 +72,7 @@ class _ChatHomeState extends State<ChatHome> {
                   height: size.height / 14,
                   width: size.width,
                   alignment: Alignment.center,
-                  child: Container(
+                  child: SizedBox(
                     height: size.height / 14,
                     width: size.width / 1.2,
                     child: TextField(
@@ -102,19 +103,19 @@ class _ChatHomeState extends State<ChatHome> {
                                     userMap: userMap,
                                   )));
                         },
-                        leading: Icon(
+                        leading: const Icon(
                           Icons.account_box,
                           color: Colors.black,
                         ),
                         title: Text(
                           userMap!['name'],
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.black,
                               fontSize: 17,
                               fontWeight: FontWeight.w500),
                         ),
                         subtitle: Text(userMap!['email']),
-                        trailing: Icon(
+                        trailing: const Icon(
                           Icons.chat,
                           color: Colors.black,
                         ),

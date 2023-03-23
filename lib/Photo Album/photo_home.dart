@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dementia_app/Photo%20Album/add_caption.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -10,36 +12,45 @@ class PhotoAlbumScreen extends StatefulWidget {
 }
 
 class _PhotoAlbumScreenState extends State<PhotoAlbumScreen> {
-  List<String> imageUrls = [
-    'https://example.com/image1.jpg',
-    'https://example.com/image2.jpg',
-    'https://example.com/image3.jpg'
-  ];
+  List<String> imageUrls = [];
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Photo Album'),
       ),
-      body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-        ),
-        itemCount: imageUrls.length,
-        itemBuilder: (context, index) {
-          return CachedNetworkImage(
-            imageUrl: imageUrls[index],
-            placeholder: (context, url) => Center(
-              child: Container(
-                height: size.height / 20,
-                width: size.width / 20,
-                child: CircularProgressIndicator(),
-              ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('captions').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return CircularProgressIndicator();
+          }
+          final captionDocs = snapshot.data!.docs;
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
             ),
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            itemCount: captionDocs.length,
+            itemBuilder: (context, index) {
+              final caption = captionDocs[index].data() as Map<String, dynamic>;
+
+              return Column(
+                children: [
+                  SizedBox(height: 8.0),
+                  CachedNetworkImage(
+                    imageUrl: caption['imageUrl'],
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    caption['caption'],
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                ],
+              );
+            },
           );
         },
       ),
@@ -88,10 +99,28 @@ class _PhotoAlbumScreenState extends State<PhotoAlbumScreen> {
     final pickedFile = await ImagePicker().pickImage(source: source);
 
     if (pickedFile != null) {
-      setState(() {
-        imageUrls.add(pickedFile.path);
-      });
-      _showAddCaptionScreen(pickedFile.path);
+      // Upload image to Firebase Storage
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('images/${DateTime.now().millisecondsSinceEpoch}');
+      final uploadTask = storageRef.putFile(File(pickedFile.path));
+      final snapshot = await uploadTask.whenComplete(() {});
+      final downloadUrl = await snapshot.ref.getDownloadURL();
+
+      // Show add caption screen
+      _showAddCaptionScreen(downloadUrl);
+
+      // Save image URL and caption to Firestore
+      final caption = await Navigator.push<String>(
+        context,
+        MaterialPageRoute(builder: (context) => AddCaptionScreen(downloadUrl)),
+      );
+      if (caption != null) {
+        FirebaseFirestore.instance.collection('captions').add({
+          'imageUrl': downloadUrl,
+          'caption': caption,
+        });
+      }
     }
   }
 

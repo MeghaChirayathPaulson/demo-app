@@ -39,6 +39,8 @@ dependencies:
   google_fonts: ^4.0.3
   date_picker_timeline: 
   image_picker: ^0.8.7
+  firebase_storage: ^11.0.16
+  uuid: ^3.0.7
   cached_network_image: ^3.2.3
   file_picker: ^5.2.6
     
