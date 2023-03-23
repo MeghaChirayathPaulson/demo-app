@@ -66,10 +66,12 @@ class _GameHomeState extends State<GameHome> {
                       onTap: () {
                         print(_game.cards_list[index]);
                         setState(() {
-                          tries++;
                           _game.gameImg![index] = _game.cards_list[index];
                           _game.matchCheck
                               .add({index: _game.cards_list[index]});
+                          if (_game.matchCheck.length % 2 == 0) {
+                            tries++;
+                          }
                         });
                         if (_game.matchCheck.length == 2) {
                           if (_game.matchCheck[0].values.first ==

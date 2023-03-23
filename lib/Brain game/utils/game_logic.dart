@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class Game {
   final String hiddenCardpath = 'assets/hidden.png';
   List<String>? gameImg;
@@ -18,6 +20,7 @@ class Game {
   final int cardCount = 8;
 
   void initGame() {
+    cards_list.shuffle(); // shuffle the cards_list
     gameImg = List.generate(cardCount, (index) => hiddenCardpath);
   }
 }
