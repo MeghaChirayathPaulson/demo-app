@@ -1,22 +1,22 @@
 import 'package:dementia_app/Calendar&Reminder/calendar_home.dart';
-import 'package:dementia_app/Calendar/calendar.dart';
 import 'package:dementia_app/Community/chat_home.dart';
-import 'package:dementia_app/CreateAccount.dart';
 import 'package:dementia_app/Emotion/emotion_home.dart';
 import 'package:dementia_app/Methods.dart';
 import 'package:dementia_app/Photo%20Album/photo_home.dart';
 import 'package:dementia_app/To%20do/todomain.dart';
 import 'package:dementia_app/Treatment%20Tracking/treatment_home.dart';
-import 'package:dementia_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'Brain game/game_home.dart';
 import 'Location Tracking/loc_home.dart';
 import 'Dementia Prediction/prediction.dart';
+import 'Treatment Tracking/treatment_newhome.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final String? displayName;
+
+  HomeScreen({Key? key, this.displayName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
                       bottomRight: Radius.circular(50.0),
                       topLeft: Radius.circular(5.0),
                       bottomLeft: Radius.circular(50.0)),
-                  color: Colors.blue,
+                  color: Colors.deepPurple,
                 ),
                 padding: const EdgeInsets.fromLTRB(10, 70, 0, 0),
                 child: Column(
@@ -96,8 +96,8 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Container(
                           padding: const EdgeInsets.fromLTRB(150, 95, 0, 0),
-                          child: const Text(
-                            "Anish",
+                          child: Text(
+                            "$displayName",
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 18,
@@ -512,7 +512,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => AddTreatmentRecordScreen(),
+                                  builder: (_) => TreatmentRecordsScreen(),
                                 ));
                           },
                           child: Container(

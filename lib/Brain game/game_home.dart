@@ -25,7 +25,7 @@ class _GameHomeState extends State<GameHome> {
   Widget build(BuildContext context) {
     double screen_width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.deepPurple,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -17,7 +17,7 @@ class MyButton extends StatelessWidget {
         width: 120,
         height: 60,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: Colors.blue),
+            borderRadius: BorderRadius.circular(20), color: Colors.deepPurple),
         child: Text(
           label,
           style: const TextStyle(

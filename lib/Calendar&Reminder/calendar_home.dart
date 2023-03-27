@@ -58,7 +58,7 @@ class _CalenderHomeState extends State<CalenderHome> {
               height: 100,
               width: 80,
               initialSelectedDate: DateTime.now(),
-              selectionColor: Colors.blue,
+              selectionColor: Colors.deepPurple,
               selectedTextColor: Colors.white,
               dateTextStyle: GoogleFonts.lato(
                 textStyle: const TextStyle(

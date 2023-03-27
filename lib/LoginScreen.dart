@@ -1,6 +1,7 @@
 import 'package:dementia_app/CreateAccount.dart';
 import 'package:dementia_app/HomeScreen.dart';
 import 'package:dementia_app/Methods.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -93,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: const Text(
                       "Create Account",
                       style: TextStyle(
-                          color: Colors.blue,
+                          color: Colors.deepPurple,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
                     ),
@@ -112,13 +113,23 @@ class _LoginScreenState extends State<LoginScreen> {
             isLoading = true;
           });
           logIn(_email.text, _password.text).then((user) {
+            print(user);
             if (user != null) {
               print("Login Successful");
               setState(() {
                 isLoading = false;
               });
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const HomeScreen()));
+
+              String? displayName =
+                  FirebaseAuth.instance.currentUser!.displayName;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => HomeScreen(
+                    displayName: FirebaseAuth.instance.currentUser!.displayName,
+                  ),
+                ),
+              );
             } else {
               print("Login failed");
               setState(() {
@@ -135,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
           width: size.width / 1.2,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: Colors.blue,
+            color: Colors.deepPurple,
           ),
           alignment: Alignment.center,
           child: const Text("Login",
