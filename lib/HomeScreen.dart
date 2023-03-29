@@ -4,14 +4,13 @@ import 'package:dementia_app/Emotion/emotion_home.dart';
 import 'package:dementia_app/Methods.dart';
 import 'package:dementia_app/Photo%20Album/photo_home.dart';
 import 'package:dementia_app/To%20do/todomain.dart';
-import 'package:dementia_app/Treatment%20Tracking/treatment_home.dart';
+import 'package:dementia_app/Treatment%20Tracking/treatment_newhome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'Brain game/game_home.dart';
 import 'Location Tracking/loc_home.dart';
 import 'Dementia Prediction/prediction.dart';
-import 'Treatment Tracking/treatment_newhome.dart';
 
 class HomeScreen extends StatelessWidget {
   final String? displayName;

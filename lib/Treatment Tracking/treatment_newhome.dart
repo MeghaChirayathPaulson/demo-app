@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dementia_app/Treatment%20Tracking/details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -53,7 +54,19 @@ class _TreatmentRecordsScreenState extends State<TreatmentRecordsScreen> {
               return ListTile(
                 title: Text(data['treatmentName']),
                 subtitle: Text(data['date']),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          TreatmentRecordDetailScreen(
+                        treatmentName: data['treatmentName'],
+                        date: data['date'],
+                        description: data['description'],
+                        downloadURL: data['downloadURL'],
+                      ),
+                    ),
+                  );
+                },
               );
             }).toList(),
           );

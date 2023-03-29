@@ -106,6 +106,19 @@ class _GameHomeState extends State<GameHome> {
                       ));
                 }),
           ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Color.fromARGB(255, 225, 119, 38), // Background color
+            ),
+            onPressed: () {
+              setState(() {
+                tries = 0;
+                score = 0;
+                _game.initGame();
+              });
+            },
+            child: Text('Play Again'),
+          )
         ],
       ),
     );
