@@ -1,6 +1,7 @@
 import 'package:dementia_app/Calendar&Reminder/calendar_home.dart';
 import 'package:dementia_app/Community/chat_home.dart';
 import 'package:dementia_app/Emotion/emotion_home.dart';
+import 'package:dementia_app/Location%20Tracking/location_main.dart';
 import 'package:dementia_app/Methods.dart';
 import 'package:dementia_app/Photo%20Album/photo_home.dart';
 import 'package:dementia_app/To%20do/todomain.dart';
@@ -332,7 +333,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => Location(),
+                                  builder: (_) => MyApplication(),
                                 ));
                           },
                           child: Container(
