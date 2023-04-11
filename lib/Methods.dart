@@ -3,7 +3,8 @@ import 'package:dementia_app/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-Future<User?> createAccount(String name, String email, String password) async {
+Future<User?> createAccount(String name, String email, String password,
+    String phone, String place) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -22,6 +23,8 @@ Future<User?> createAccount(String name, String email, String password) async {
         "name": name,
         "email": email,
         "status": "Unavailable",
+        "phone": phone,
+        "place": place,
       });
 
       return user;

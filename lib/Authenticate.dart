@@ -9,7 +9,9 @@ class Authenticate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (_auth.currentUser != null) {
-      return HomeScreen();
+      String? displayName = FirebaseAuth.instance.currentUser!.displayName;
+      User? user = _auth.currentUser;
+      return HomeScreen(displayName: displayName, user: user);
     } else {
       return LoginScreen();
     }

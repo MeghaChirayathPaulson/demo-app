@@ -1,4 +1,5 @@
 import 'package:dementia_app/HomeScreen.dart';
+import 'package:dementia_app/LoginScreen.dart';
 import 'package:dementia_app/Methods.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,9 @@ class _CreateAccountState extends State<CreateAccount> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
+  final TextEditingController _place = TextEditingController();
+
   bool isLoading = false;
 
   @override
@@ -39,7 +43,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     width: size.width / 1.2,
                   ),
                   SizedBox(
-                    height: size.height / 2,
+                    height: size.height / 11,
                   ),
                   Container(
                     width: size.width / 1.3,
@@ -76,10 +80,27 @@ class _CreateAccountState extends State<CreateAccount> {
                   Container(
                     width: size.width,
                     alignment: Alignment.center,
-                    child: field(size, "Email", Icons.account_box, _email),
+                    child: field(size, "Email", Icons.mail_outline, _email),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
+                    child: Container(
+                      width: size.width,
+                      alignment: Alignment.center,
+                      child: field(
+                          size, "Phone Number", Icons.phone_android, _phone),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 1.0),
+                    child: Container(
+                      width: size.width,
+                      alignment: Alignment.center,
+                      child: field(size, "Place", Icons.place, _place),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 17.0),
                     child: Container(
                       width: size.width,
                       alignment: Alignment.center,
@@ -114,17 +135,21 @@ class _CreateAccountState extends State<CreateAccount> {
       onTap: () {
         if (_name.text.isNotEmpty &&
             _email.text.isNotEmpty &&
-            _password.text.isNotEmpty) {
+            _password.text.isNotEmpty &&
+            _phone.text.isNotEmpty &&
+            _place.text.isNotEmpty) {
           setState(() {
             isLoading = true;
           });
-          createAccount(_name.text, _email.text, _password.text).then((user) {
+          createAccount(_name.text, _email.text, _password.text, _phone.text,
+                  _place.text)
+              .then((user) {
             if (user != null) {
               setState(() {
                 isLoading = false;
               });
               Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                  context, MaterialPageRoute(builder: (_) => LoginScreen()));
               print("Login Successfull");
             } else {
               print("Login failed");

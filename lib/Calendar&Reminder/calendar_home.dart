@@ -47,7 +47,7 @@ class _CalenderHomeState extends State<CalenderHome> {
                 ),
                 MyButton(
                     label: "+ Add Task",
-                    onTap: () => Get.to(const AddTaskPage()))
+                    onTap: () => Get.to(() => const AddTaskPage()))
               ],
             ),
           ),

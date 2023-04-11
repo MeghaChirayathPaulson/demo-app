@@ -8,6 +8,8 @@ import 'package:dementia_app/To%20do/todomain.dart';
 import 'package:dementia_app/Treatment%20Tracking/treatment_newhome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'Brain game/game_home.dart';
 import 'Location Tracking/loc_home.dart';
@@ -15,11 +17,13 @@ import 'Dementia Prediction/prediction.dart';
 
 class HomeScreen extends StatelessWidget {
   final String? displayName;
-
-  HomeScreen({Key? key, this.displayName}) : super(key: key);
+  final User? user;
+  HomeScreen({Key? key, this.displayName, this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference users = firestore.collection('users');
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -81,75 +85,67 @@ class HomeScreen extends StatelessWidget {
                     boxShadow: const [
                       BoxShadow(blurRadius: 2.0, color: Color(0xFFCFCCC4)),
                     ]),
-                child: Column(
-                  children: [
-                    Stack(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(145, 40, 0, 0),
-                          child: const CircleAvatar(
-                            radius: 28,
-                            backgroundColor: Color.fromARGB(255, 220, 214, 214),
-                            //backgroundImage: AssetImage(""),
-                            backgroundImage: AssetImage('assets/user.png'),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(150, 95, 0, 0),
-                          child: Text(
-                            "$displayName",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(140, 125, 0, 0),
-                          child: const Text(
-                            "Engineer",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(130, 145, 0, 0),
-                          child: const Text(
-                            "9900000000",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(140, 166, 0, 0),
-                          child: const Text(
-                            "Thrissur",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Center(
-                              child: TextButton(
-                                  onPressed: () => logOut(context),
-                                  child: const Text(
-                                    "Logout",
-                                  ))),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                child: user == null
+                    ? Text('User not signed in')
+                    : FutureBuilder<DocumentSnapshot>(
+                        future: users.doc(user!.uid).get(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<DocumentSnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            Map<String, dynamic> data =
+                                snapshot.data!.data() as Map<String, dynamic>;
+                            String? phone = data['phone'];
+                            String? place = data['place'];
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Center(
+                                  child: const CircleAvatar(
+                                    radius: 28,
+                                    backgroundColor:
+                                        Color.fromARGB(255, 220, 214, 214),
+                                    //backgroundImage: AssetImage(""),
+                                    backgroundImage:
+                                        AssetImage('assets/user.png'),
+                                  ),
+                                ),
+                                Center(
+                                  child: Text(
+                                    "$displayName",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  'Phone: $phone',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  'Place: $place',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        },
+                      ),
               ),
               Column(
                 children: [
@@ -622,6 +618,14 @@ class HomeScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 20.0,
+                  ),
+                  Container(
+                    child: Center(
+                        child: ElevatedButton(
+                            onPressed: () => logOut(context),
+                            child: const Text(
+                              "Logout",
+                            ))),
                   ),
                 ],
               ),

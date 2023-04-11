@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: size.width,
                     alignment: Alignment.center,
-                    child: field(size, "email", Icons.account_box, _email),
+                    child: field(size, "email", Icons.email_outlined, _email),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
@@ -113,7 +113,9 @@ class _LoginScreenState extends State<LoginScreen> {
             isLoading = true;
           });
           logIn(_email.text, _password.text).then((user) {
+            print(user!.uid);
             print(user);
+
             if (user != null) {
               print("Login Successful");
               setState(() {
@@ -126,8 +128,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (_) => HomeScreen(
-                    displayName: FirebaseAuth.instance.currentUser!.displayName,
-                  ),
+                      displayName:
+                          FirebaseAuth.instance.currentUser!.displayName,
+                      user: user),
                 ),
               );
             } else {
