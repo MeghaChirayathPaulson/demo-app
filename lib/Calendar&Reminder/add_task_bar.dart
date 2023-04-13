@@ -205,7 +205,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                     ? Colors.deepPurple
                                     : index == 1
                                         ? Colors.pink
-                                        : Colors.yellow,
+                                        : Color.fromARGB(255, 122, 111, 9),
                                 child: _selectdColor == index
                                     ? const Icon(
                                         Icons.done,
