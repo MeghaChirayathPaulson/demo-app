@@ -56,21 +56,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    TextButton(
-                      child: Text(
-                        "Take a Survey",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          fontSize: 16,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DementiaSurvey()));
-                      },
-                    ),
                   ],
                 ),
               ),
@@ -213,7 +198,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => todoApp(),
+                                  builder: (_) => DementiaSurvey(),
                                 ));
                           },
                           child: Container(
@@ -233,7 +218,7 @@ class HomeScreen extends StatelessWidget {
                                   children: [
                                     Container(
                                       padding: const EdgeInsets.fromLTRB(
-                                          50, 30, 0, 0),
+                                          10, 30, 0, 0),
                                       child: CircleAvatar(
                                           radius: 29,
                                           child: ClipRRect(
@@ -247,9 +232,9 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     Container(
                                       padding: const EdgeInsets.fromLTRB(
-                                          40, 95, 0, 0),
+                                          15, 95, 0, 0),
                                       child: const Text(
-                                        "Add your Tasks here",
+                                        "Survey",
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 18,
