@@ -107,7 +107,7 @@ class _GameHomeState extends State<GameHome> {
                                 actions: [
                                   ElevatedButton(
                                     onPressed: () {
-                                      // Code to go to the next level
+                                      Navigator.pop(context);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(

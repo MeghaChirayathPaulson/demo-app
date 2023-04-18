@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:dementia_app/Calendar&Reminder/add_task_bar.dart';
 import 'package:dementia_app/Calendar&Reminder/button.dart';
+import 'package:dementia_app/Calendar&Reminder/notifications.dart';
 import 'package:dementia_app/Calendar&Reminder/task_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,14 @@ class CalenderHome extends StatefulWidget {
 }
 
 class _CalenderHomeState extends State<CalenderHome> {
+  var notifyHelper;
+  @override
+  void initState() {
+    super.initState();
+    notifyHelper = NotifyHelper();
+    notifyHelper.initializeNotification();
+  }
+
   DateTime _selectedDate = DateTime.now();
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
@@ -28,6 +37,15 @@ class _CalenderHomeState extends State<CalenderHome> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            notifyHelper.displayNotification(title: "Theme changed");
+          },
+          child: Icon(
+            Icons.nightlight_round,
+            size: 20,
+          ),
+        ),
       ),
       body: Column(
         children: [
