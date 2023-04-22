@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AddCaptionScreen extends StatefulWidget {
   final String imageUrl;
+  final User user;
 
-  AddCaptionScreen(this.imageUrl);
+  AddCaptionScreen(this.imageUrl, this.user);
 
   @override
   _AddCaptionScreenState createState() => _AddCaptionScreenState();
