@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TreatmentRecordDetailScreen extends StatelessWidget {
   final String treatmentName;
   final String date;
   final String description;
   final String? downloadURL;
+  final String userId;
+  final String recordId;
 
   TreatmentRecordDetailScreen({
     required this.treatmentName,
     required this.date,
     required this.description,
     this.downloadURL,
+    required this.userId,
+    required this.recordId,
   });
 
   @override
   Widget build(BuildContext context) {
+    DocumentReference recordRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('treatment_records')
+        .doc(recordId);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Treatment Record Detail'),

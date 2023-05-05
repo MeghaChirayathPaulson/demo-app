@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TreatmentRecordsScreen extends StatefulWidget {
   @override
@@ -20,8 +21,14 @@ class _TreatmentRecordsScreenState extends State<TreatmentRecordsScreen> {
   @override
   void initState() {
     super.initState();
-    _treatmentRecordsRef = _firestore.collection('treatment_records');
-    _treatmentRecordsStream = _treatmentRecordsRef.snapshots();
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      _treatmentRecordsRef = _firestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('treatment_records');
+      _treatmentRecordsStream = _treatmentRecordsRef.snapshots();
+    }
   }
 
   @override
@@ -63,6 +70,8 @@ class _TreatmentRecordsScreenState extends State<TreatmentRecordsScreen> {
                         date: data['date'],
                         description: data['description'],
                         downloadURL: data['downloadURL'],
+                        userId: 'currentUser.uid',
+                        recordId: 'document.id',
                       ),
                     ),
                   );
@@ -135,14 +144,19 @@ class _AddTreatmentRecordDialogState extends State<AddTreatmentRecordDialog> {
               if (result != null) {
                 PlatformFile file = result.files.first;
                 // Upload the file to Firebase Storage and get the download URL
+                final currentUser = FirebaseAuth.instance.currentUser!;
                 Reference ref = FirebaseStorage.instance
                     .ref()
+                    .child('users')
+                    .child(currentUser.uid)
                     .child('treatment_records')
                     .child('${DateTime.now().millisecondsSinceEpoch}');
                 UploadTask uploadTask = ref.putFile(File(file.path!));
                 TaskSnapshot taskSnapshot =
                     await uploadTask.whenComplete(() {});
                 _downloadURL = await taskSnapshot.ref.getDownloadURL();
+                print("hello world");
+                print(_downloadURL);
               }
             },
             child: Text('Select file'),
@@ -150,16 +164,25 @@ class _AddTreatmentRecordDialogState extends State<AddTreatmentRecordDialog> {
           SizedBox(height: 16.0),
           ElevatedButton(
             onPressed: () async {
+              final currentUser = FirebaseAuth.instance.currentUser!;
+              final userId = currentUser.uid;
+
               final newRecord = TreatmentRecord(
+                userId: userId,
                 treatmentName: _treatmentNameController.text,
                 date: _dateController.text,
                 description: _descriptionController.text,
                 downloadURL: _downloadURL,
               );
               // Save the treatment record to Firestore
-              await FirebaseFirestore.instance
-                  .collection('treatment_records')
-                  .add(newRecord.toMap());
+              if (currentUser != null) {
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(currentUser.uid)
+                    .collection('treatment_records')
+                    .add(newRecord.toMap());
+              }
+
               Navigator.of(context).pop(newRecord);
             },
             child: Text('Save'),
@@ -171,12 +194,14 @@ class _AddTreatmentRecordDialogState extends State<AddTreatmentRecordDialog> {
 }
 
 class TreatmentRecord {
+  final String userId;
   final String treatmentName;
   final String date;
   final String description;
   final String? downloadURL;
 
   TreatmentRecord({
+    required this.userId,
     required this.treatmentName,
     required this.date,
     required this.description,
@@ -185,6 +210,7 @@ class TreatmentRecord {
 
   Map<String, dynamic> toMap() {
     return {
+      'userId': userId,
       'treatmentName': treatmentName,
       'date': date,
       'description': description,
