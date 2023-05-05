@@ -47,22 +47,28 @@ class _PhotoAlbumScreenState extends State<PhotoAlbumScreen> {
             itemBuilder: (context, index) {
               final caption = captionDocs[index].data() as Map<String, dynamic>;
 
-              return Expanded(
-                child: Column(
-                  children: [
-                    SizedBox(height: 8.0),
-                    CachedNetworkImage(
-                      imageUrl: caption['imageUrl'],
-                      placeholder: (context, url) =>
-                          CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      caption['caption'],
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                  ],
+              return Container(
+                height: 200,
+                child: GestureDetector(
+                  onLongPress: () {
+                    _showDeleteConfirmationDialog(caption['imageUrl']);
+                  },
+                  child: Column(
+                    children: [
+                      SizedBox(height: 8.0),
+                      CachedNetworkImage(
+                        imageUrl: caption['imageUrl'],
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                      SizedBox(height: 8.0),
+                      Text(
+                        caption['caption'],
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -137,5 +143,48 @@ class _PhotoAlbumScreenState extends State<PhotoAlbumScreen> {
         });
       }
     }
+  }
+
+  Future<void> _showDeleteConfirmationDialog(String imageUrl) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete photo'),
+          content: Text('Are you sure you want to delete this photo?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () {
+                Navigator.of(context).pop();
+
+                // Remove photo from Firestore and storage
+                captionsRef.where('imageUrl', isEqualTo: imageUrl).get().then(
+                  (snapshot) {
+                    if (snapshot.size > 0) {
+                      String docId = snapshot.docs[0].id;
+                      captionsRef.doc(docId).delete().then(
+                        (_) async {
+                          await FirebaseStorage.instance
+                              .refFromURL(imageUrl)
+                              .delete();
+                          setState(() {});
+                        },
+                      );
+                    }
+                  },
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
