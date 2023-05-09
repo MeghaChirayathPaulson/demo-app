@@ -6,10 +6,13 @@ import 'package:dementia_app/Methods.dart';
 import 'package:dementia_app/Photo%20Album/photo_home.dart';
 import 'package:dementia_app/To%20do/todomain.dart';
 import 'package:dementia_app/Treatment%20Tracking/treatment_newhome.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 import 'Brain game/game_home.dart';
 import 'Location Tracking/loc_home.dart';
@@ -90,14 +93,89 @@ class HomeScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                Center(
-                                  child: const CircleAvatar(
-                                    radius: 28,
-                                    backgroundColor:
-                                        Color.fromARGB(255, 220, 214, 214),
-                                    //backgroundImage: AssetImage(""),
-                                    backgroundImage:
-                                        AssetImage('assets/user.png'),
+                                GestureDetector(
+                                  onTap: () async {
+                                    // Show dialog box to select an image
+                                    final imagePicker = ImagePicker();
+                                    final pickedFile = await showDialog<File>(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: Text("Select Profile Picture"),
+                                        content: SingleChildScrollView(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              TextButton.icon(
+                                                onPressed: () async {
+                                                  final pickedImage =
+                                                      await imagePicker
+                                                          .pickImage(
+                                                              source:
+                                                                  ImageSource
+                                                                      .gallery);
+                                                  Navigator.of(context)
+                                                      .pop(pickedImage);
+                                                },
+                                                icon: Icon(Icons.photo_library),
+                                                label: Text("Gallery"),
+                                              ),
+                                              TextButton.icon(
+                                                onPressed: () async {
+                                                  final pickedImage =
+                                                      await imagePicker
+                                                          .pickImage(
+                                                              source:
+                                                                  ImageSource
+                                                                      .camera);
+                                                  Navigator.of(context)
+                                                      .pop(pickedImage);
+                                                },
+                                                icon: Icon(Icons.camera_alt),
+                                                label: Text("Camera"),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+
+                                    // Create a reference to the user's profile picture document
+                                    final DocumentReference profilePicRef =
+                                        users
+                                            .doc(user!.uid)
+                                            .collection('profile_pictures')
+                                            .doc('profile_picture');
+
+// Upload the selected image to Firebase storage
+                                    if (pickedFile != null) {
+                                      final Reference storageRef =
+                                          FirebaseStorage.instance.ref().child(
+                                              'users/${user!.uid}/profile_pictures/profile_picture.jpg');
+                                      final UploadTask uploadTask =
+                                          storageRef.putFile(
+                                        pickedFile,
+                                        SettableMetadata(
+                                            contentType: 'image/jpeg'),
+                                      );
+                                      final TaskSnapshot snapshot =
+                                          await uploadTask;
+                                      final String downloadUrl =
+                                          await snapshot.ref.getDownloadURL();
+
+                                      // Update the user's profile picture in Firestore
+                                      profilePicRef.set({'url': downloadUrl});
+                                    }
+                                  },
+                                  child: Center(
+                                    child: const CircleAvatar(
+                                      radius: 28,
+                                      backgroundColor:
+                                          Color.fromARGB(255, 220, 214, 214),
+                                      //backgroundImage: AssetImage(""),
+                                      backgroundImage:
+                                          AssetImage('assets/user.png'),
+                                    ),
                                   ),
                                 ),
                                 Center(

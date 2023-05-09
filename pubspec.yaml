@@ -46,6 +46,7 @@ dependencies:
   uuid: ^3.0.7
   cached_network_image: ^3.2.3
   file_picker: ^5.2.6
+  camera: ^0.10.0
 
   google_maps_flutter: ^2.0.6
   location: ^4.3.0
