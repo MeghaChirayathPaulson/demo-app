@@ -1,122 +1,86 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class EmotionHome extends StatefulWidget {
-  const EmotionHome({Key? key}) : super(key: key);
+  EmotionHome({Key? key}) : super(key: key);
 
   @override
   State<EmotionHome> createState() => _EmotionHomeState();
 }
 
 class _EmotionHomeState extends State<EmotionHome> {
-  late CameraController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Initialize the camera controller
-    _controller = CameraController(
-      // Use the first available camera
-      CameraDescription(
-        name: '0', // add a unique name for the camera being used
-        lensDirection: CameraLensDirection.front,
-        sensorOrientation: 90,
-      ),
-      ResolutionPreset.high,
-    );
-
-    // Wait for the controller to initialize before displaying the camera preview
-    _controller.initialize().then((_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {});
-    });
-  }
-
-  @override
-  void dispose() {
-    // Dispose of the controller when the widget is disposed
-    _controller.dispose();
-    super.dispose();
-  }
+  String detectedEmotion = '';
 
   @override
   Widget build(BuildContext context) {
-    if (!_controller.value.isInitialized) {
-      return Container();
-    }
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Emotion Detector'),
+        title: Text("Emotion Detector"),
       ),
-      body: Stack(
-        children: [
-          CameraPreview(_controller),
-          Positioned(
-            bottom: 16,
-            left: 16,
-            right: 16,
-            child: FloatingActionButton(
-              onPressed: _captureImage,
-              child: Icon(Icons.camera_alt),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                selectImage();
+              },
+              child: Text('Select Image'),
             ),
-          ),
-        ],
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                detectEmotion();
+              },
+              child: Text('Detect Emotion'),
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Detected Emotion: $detectedEmotion',
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Future<void> _captureImage() async {
-    try {
-      // Take a photo using the camera
-      final image = await _controller.takePicture();
+  late final ImagePicker _imagePicker = ImagePicker();
+  late PickedFile? _pickedFile;
 
-      // Pass the captured image to the detectEmotion function
-      final result = await detectEmotion(image.path);
-
-      // Show the detected emotion in a dialog
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text('Detected Emotion'),
-          content: Text(result['emotion'] ?? 'Unknown emotion'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text('OK'),
-            ),
-          ],
-        ),
-      );
-    } catch (e) {
-      print(e);
-    }
+  Future<void> selectImage() async {
+    final pickedFile = await _imagePicker.getImage(source: ImageSource.gallery);
+    setState(() {
+      _pickedFile = pickedFile;
+    });
   }
 
-  Future<Map<String, dynamic>> detectEmotion(String imagePath) async {
-    try {
-      // Read the image bytes from the file path
-      final imageBytes = await File(imagePath).readAsBytes();
+  Future<void> detectEmotion() async {
+    if (_pickedFile != null) {
+      var bytes = await _pickedFile!.readAsBytes();
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://192.168.1.3:5050/emotion_detection'),
+      );
+      request.files.add(
+        http.MultipartFile.fromBytes('image', bytes,
+            filename: 'selected_image.jpg'),
+      );
 
-      // Send the photo to the API to detect the emotion
-      final uri = Uri.parse('http://127.0.0.1:5000/emotion_detection');
-      final request = http.MultipartRequest('POST', uri)
-        ..files.add(http.MultipartFile.fromBytes('image', imageBytes));
-      final response = await request.send();
-      final responseJson = await response.stream.bytesToString();
-
-      // Return the emotion detection result as a Map
-      return json.decode(responseJson);
-    } catch (e) {
-      print('Error detecting emotion: $e');
-      return {};
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        var responseBody = await response.stream.bytesToString();
+        var json = jsonDecode(responseBody);
+        setState(() {
+          detectedEmotion = json['emotion'];
+        });
+      } else {
+        print('Failed to detect emotion. Status code: ${response.statusCode}');
+      }
+    } else {
+      print('No image selected.');
     }
   }
 }

@@ -37,15 +37,6 @@ class _CalenderHomeState extends State<CalenderHome> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
-            notifyHelper.displayNotification(title: "Theme changed");
-          },
-          child: Icon(
-            Icons.nightlight_round,
-            size: 20,
-          ),
-        ),
       ),
       body: Column(
         children: [
